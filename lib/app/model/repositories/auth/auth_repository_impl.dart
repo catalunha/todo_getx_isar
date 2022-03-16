@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:todo_getx_isar/app/data/firebase/auth/auth_source.dart';
-import 'package:todo_getx_isar/app/data/firebase/auth/auth_source_exception.dart';
+import 'package:todo_getx_isar/app/model/repositories/auth/auth_repository.dart';
+import 'package:todo_getx_isar/app/model/repositories/auth/auth_repository_exception.dart';
 
-class AuthSourceImpl implements AuthSource {
+class AuthRepositoryImpl implements AuthRepository {
   FirebaseAuth _firebaseAuth;
-  AuthSourceImpl({
+  AuthRepositoryImpl({
     required FirebaseAuth firebaseAuth,
   }) : _firebaseAuth = firebaseAuth;
   @override
@@ -25,14 +25,14 @@ class AuthSourceImpl implements AuthSource {
             await _firebaseAuth.fetchSignInMethodsForEmail(email);
 
         if (loginTypes.contains('password')) {
-          throw AuthSourceException(message: 'E-mail ja utilizado.');
+          throw AuthRepositoryException(message: 'E-mail ja utilizado.');
         } else {
-          throw AuthSourceException(
+          throw AuthRepositoryException(
               message:
                   'Você esta cadastrado pelo Google. Então, entre pelo Google !!!');
         }
       } else {
-        throw AuthSourceException(
+        throw AuthRepositoryException(
             message: e.message ?? 'Erro ao registrar usuário.');
       }
     }
@@ -48,28 +48,29 @@ class AuthSourceImpl implements AuthSource {
     } on PlatformException catch (e, s) {
       // print(e);
       // print(s);
-      throw AuthSourceException(
+      throw AuthRepositoryException(
           message: e.message ?? 'Erro de PlatformException ao realizar login');
     } on FirebaseAuthException catch (e, s) {
       print('...>e.code: ${e.code}');
       // print(s);
 
       if (e.code == 'invalid-email') {
-        throw AuthSourceException(message: 'Email não válido');
+        throw AuthRepositoryException(message: 'Email não válido');
       }
       if (e.code == 'user-disabled') {
-        throw AuthSourceException(
+        throw AuthRepositoryException(
             message: 'Usuario desabilitado para o email consultado.');
       }
       if (e.code == 'user-not-found') {
-        throw AuthSourceException(
+        throw AuthRepositoryException(
             message: 'Não há usuário correspondente a este email');
       }
       if (e.code == 'wrong-password') {
-        throw AuthSourceException(message: 'Senha inválida para este email');
+        throw AuthRepositoryException(
+            message: 'Senha inválida para este email');
       }
 
-      throw AuthSourceException(
+      throw AuthRepositoryException(
           message:
               'Erro desconhecido no FirebaseAuthException ao realizar login');
     }
@@ -83,21 +84,21 @@ class AuthSourceImpl implements AuthSource {
       if (loginTypes.contains('password')) {
         await _firebaseAuth.sendPasswordResetEmail(email: email);
       } else if (loginTypes.contains('google')) {
-        throw AuthSourceException(
+        throw AuthRepositoryException(
             message:
                 'Você esta cadastrado pelo Google. Nao precisa recuperar senha !!!');
       } else {
-        throw AuthSourceException(message: 'Email não encontrado');
+        throw AuthRepositoryException(message: 'Email não encontrado');
       }
     } on PlatformException catch (e, s) {
       // //print(e);
       // //print(s);
-      throw AuthSourceException(
+      throw AuthRepositoryException(
           message: e.message ?? 'Erro de PlatformException ao realizar login');
     } on FirebaseAuthException catch (e, s) {
       // //print(e);
       // //print(s);
-      throw AuthSourceException(
+      throw AuthRepositoryException(
           message:
               'Erro desconhecido no FirebaseAuthException ao realizar login');
     }
@@ -113,7 +114,7 @@ class AuthSourceImpl implements AuthSource {
         loginMethods =
             await _firebaseAuth.fetchSignInMethodsForEmail(googleUser.email);
         if (loginMethods.contains('password')) {
-          throw AuthSourceException(
+          throw AuthRepositoryException(
               message:
                   'Você esta cadastrado com email. E deve logar com email.');
         } else {
@@ -130,17 +131,17 @@ class AuthSourceImpl implements AuthSource {
     } on PlatformException catch (e, s) {
       // //print(e);
       // //print(s);
-      throw AuthSourceException(
+      throw AuthRepositoryException(
           message: e.message ?? 'Erro de PlatformException ao realizar login');
     } on FirebaseAuthException catch (e, s) {
       // //print(e);
       // //print(s);
       if (e.code == 'account-exists-with-different-credential') {
-        throw AuthSourceException(
+        throw AuthRepositoryException(
             message:
                 'Login inválido. Você se registrou com ${loginMethods?.join(",")}');
       } else {
-        throw AuthSourceException(
+        throw AuthRepositoryException(
             message:
                 'Erro desconhecido no FirebaseAuthException ao realizar login');
       }

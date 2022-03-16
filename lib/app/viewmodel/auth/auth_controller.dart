@@ -1,19 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:todo_getx_hive/app/controllers/user/user_service.dart';
-import 'package:todo_getx_hive/app/routes.dart';
+import 'package:todo_getx_isar/app/routes.dart';
+import 'package:todo_getx_isar/app/viewmodel/services/auth/auth_service.dart';
 
 class AuthController extends GetxController {
-  Rx<User?> _userFirebaseAuth = Rx<User?>(FirebaseAuth.instance.currentUser);
-  User? get user => _userFirebaseAuth.value;
-
   final FirebaseAuth _firebaseAuth;
-  final UserService _userService;
+  final AuthService _authService;
   AuthController({
     required FirebaseAuth firebaseAuth,
-    required UserService userService,
+    required AuthService authService,
   })  : _firebaseAuth = firebaseAuth,
-        _userService = userService;
+        _authService = authService;
+
+  Rx<User?> _userFirebaseAuth = Rx<User?>(FirebaseAuth.instance.currentUser);
+  User? get user => _userFirebaseAuth.value;
 
   @override
   onInit() {
@@ -21,8 +21,8 @@ class AuthController extends GetxController {
     _userFirebaseAuth.bindStream(_firebaseAuth.userChanges());
     ever<User?>(_userFirebaseAuth, (user) async {
       if (user != null) {
-        print('home');
-        Get.offAllNamed(Routes.home);
+        print('userAdditionalInfo');
+        Get.offAllNamed(Routes.userAdditionalInfo);
       } else {
         print('login');
         Get.offAllNamed(Routes.authLogin);
@@ -31,5 +31,5 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  Future<void> logout() => _userService.logout();
+  Future<void> logout() => _authService.logout();
 }

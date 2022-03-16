@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:todo_getx_hive/app/controllers/auth/login/login_controller.dart';
+import 'package:todo_getx_isar/app/viewmodel/auth/login/login_controller.dart';
 
-class LoginBinding implements Bindings {
+class AuthLoginBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<LoginController>(
-        () => LoginController(userService: Get.find()));
+        () => LoginController(authService: Get.find()));
   }
 }

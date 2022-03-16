@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_getx_hive/app/controllers/auth/register/register_controller.dart';
-import 'package:todo_getx_hive/app/views/core/ui/theme_config.dart';
-import 'package:todo_getx_hive/app/views/core/validators/validators.dart';
-import 'package:todo_getx_hive/app/views/core/widget/todo_list_field.dart';
-import 'package:todo_getx_hive/app/views/core/widget/todo_list_logo.dart';
+import 'package:todo_getx_isar/app/view/utils/part/app_text_form_field.dart';
+import 'package:todo_getx_isar/app/view/utils/part/logo.dart';
+import 'package:todo_getx_isar/app/view/utils/validators/validators.dart';
+import 'package:todo_getx_isar/app/viewmodel/auth/method/email_password/email_password_controller.dart';
 import 'package:validatorless/validatorless.dart';
 
-class EmailPasswordPage extends StatefulWidget {
-  final RegisterController _registerController = Get.find();
+class AuthEmailPasswordPage extends StatefulWidget {
+  final EmailPasswordController _emailPasswordController = Get.find();
 
-  EmailPasswordPage({Key? key}) : super(key: key);
+  AuthEmailPasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<EmailPasswordPage> createState() => _EmailPasswordPageState();
+  State<AuthEmailPasswordPage> createState() => _AuthEmailPasswordPageState();
 }
 
-class _EmailPasswordPageState extends State<EmailPasswordPage> {
+class _AuthEmailPasswordPageState extends State<AuthEmailPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailTec = TextEditingController();
   final _passwordTec = TextEditingController();
@@ -50,7 +49,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
               // ),
               Text(
                 'Cadastro',
-                style: TextStyle(fontSize: 25, color: context.primaryColor),
+                // style: TextStyle(fontSize: 25, color: context.primaryColor),
               )
             ]),
         backgroundColor: Colors.white,
@@ -61,12 +60,12 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           },
           icon: ClipOval(
             child: Container(
-              color: context.primaryColor.withAlpha(20),
+              // color: context.primaryColor.withAlpha(20),
               padding: const EdgeInsets.all(8),
               child: Icon(
                 Icons.arrow_back,
                 size: 20,
-                color: context.primaryColor,
+                // color: context.primaryColor,
               ),
             ),
           ),
@@ -77,7 +76,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           Container(
             height: MediaQuery.of(context).size.width * .5,
             child: const FittedBox(
-              child: TodoListLogo(),
+              child: AppLogo(),
               fit: BoxFit.fitHeight,
             ),
           ),
@@ -89,7 +88,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
             child: Form(
               key: _formKey,
               child: Column(children: [
-                TodoListField(
+                AppTextFormField(
                   label: 'E-mail',
                   controller: _emailTec,
                   validator: Validatorless.multiple(
@@ -100,7 +99,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                TodoListField(
+                AppTextFormField(
                   label: 'Senha',
                   obscureText: true,
                   controller: _passwordTec,
@@ -110,14 +109,14 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                   ]),
                 ),
                 const SizedBox(height: 10),
-                TodoListField(
+                AppTextFormField(
                   label: 'Repita sua senha',
                   obscureText: true,
                   controller: _confirmPasswordTec,
                   validator: Validatorless.multiple([
                     Validatorless.min(6, 'Informe mais de 6 caracteres'),
                     Validatorless.required('Campo obrigatorio'),
-                    RegisterValidators.compare(
+                    EmailPasswordValidators.compare(
                         _passwordTec, 'Senhas diferentes'),
                   ]),
                 ),
@@ -129,7 +128,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                       final formValid =
                           _formKey.currentState?.validate() ?? false;
                       if (formValid) {
-                        widget._registerController.registerUser(
+                        widget._emailPasswordController.registerUser(
                           email: _emailTec.text,
                           password: _passwordTec.text,
                         );

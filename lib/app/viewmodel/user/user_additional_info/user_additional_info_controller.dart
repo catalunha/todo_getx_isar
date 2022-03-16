@@ -1,13 +1,3 @@
-import 'package:bibliopolium/app/controllers/auth/auth_controller.dart';
-import 'package:bibliopolium/app/controllers/community/community_repository.dart';
-import 'package:bibliopolium/app/controllers/mixins/loader_mixin.dart';
-import 'package:bibliopolium/app/controllers/mixins/message_mixin.dart';
-import 'package:bibliopolium/app/controllers/user/user_repository.dart';
-import 'package:bibliopolium/app/models/exceptions/community_exceptions%20copy.dart';
-import 'package:bibliopolium/app/models/exceptions/user_exceptions.dart';
-import 'package:bibliopolium/app/models/model/comunity_model.dart';
-import 'package:bibliopolium/app/models/model/user_model.dart';
-import 'package:bibliopolium/app/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -29,6 +19,7 @@ class UserController extends GetxController with LoaderMixin, MessageMixin {
 
   Rxn<UserModel> _userModel = Rxn<UserModel>();
   UserModel? get userModel => _userModel.value;
+
   var collectAdditionalInformation = false.obs;
 
   Rxn<CommunityRef> _communitySelected = Rxn<CommunityRef>();
@@ -150,4 +141,6 @@ class UserController extends GetxController with LoaderMixin, MessageMixin {
     print('home');
     Get.offAllNamed(Routes.home);
   }
+
+  void includeDoing(bool? value) {}
 }

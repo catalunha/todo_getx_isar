@@ -1,6 +1,6 @@
-class AuthSourceException implements Exception {
+class AuthRepositoryException implements Exception {
   final String message;
-  AuthSourceException({
+  AuthRepositoryException({
     required this.message,
   });
 }

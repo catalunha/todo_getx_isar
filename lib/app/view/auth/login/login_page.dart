@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_getx_hive/app/controllers/auth/login/login_controller.dart';
-import 'package:todo_getx_hive/app/routes.dart';
-import 'package:todo_getx_hive/app/views/core/widget/todo_list_field.dart';
-import 'package:todo_getx_hive/app/views/core/widget/todo_list_logo.dart';
+import 'package:todo_getx_isar/app/routes.dart';
+import 'package:todo_getx_isar/app/view/utils/part/app_text_form_field.dart';
+import 'package:todo_getx_isar/app/view/utils/part/logo.dart';
+import 'package:todo_getx_isar/app/viewmodel/auth/login/login_controller.dart';
 import 'package:validatorless/validatorless.dart';
 
-class LoginPage extends StatefulWidget {
+class AuthLoginPage extends StatefulWidget {
   final LoginController _loginController = Get.find();
 
-  LoginPage({Key? key}) : super(key: key);
+  AuthLoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AuthLoginPage> createState() => _AuthLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AuthLoginPageState extends State<AuthLoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailTec = TextEditingController();
   final _passwordTec = TextEditingController();
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(height: 10),
-                    TodoListLogo(),
+                    AppLogo(),
                     Text('Todo List', style: context.textTheme.headline6),
                     // Text('Todo List', style: Theme.of(context).textTheme.headline6),
                     Padding(
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            TodoListField(
+                            AppTextFormField(
                               label: 'E-mail',
                               controller: _emailTec,
                               validator: Validatorless.multiple(
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                               focusNode: _emailFocus,
                             ),
                             SizedBox(height: 20),
-                            TodoListField(
+                            AppTextFormField(
                               label: 'Senha',
                               obscureText: true,
                               controller: _passwordTec,
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                         Text('Não tem conta ?'),
                         TextButton(
                           onPressed: () {
-                            Get.toNamed(Routes.authRegister);
+                            Get.toNamed(Routes.authEmailPassword);
                           },
                           child: Text('Cadastre-se'),
                         )

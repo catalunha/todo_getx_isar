@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RegisterValidators {
-  RegisterValidators._();
+class EmailPasswordValidators {
+  EmailPasswordValidators._();
   static FormFieldValidator compare(
       TextEditingController? valueEC, String message) {
     return (value) {

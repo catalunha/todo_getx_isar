@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:todo_getx_hive/app/controllers/auth/auth_controller.dart';
-import 'package:todo_getx_hive/app/controllers/user/user_service.dart';
-import 'package:todo_getx_hive/app/controllers/user/user_service_impl.dart';
-import 'package:todo_getx_hive/app/models/user/user_repository.dart';
-import 'package:todo_getx_hive/app/models/user/user_repository_impl.dart';
+import 'package:todo_getx_isar/app/model/repositories/auth/auth_repository.dart';
+import 'package:todo_getx_isar/app/model/repositories/auth/auth_repository_impl.dart';
+import 'package:todo_getx_isar/app/viewmodel/auth/auth_controller.dart';
+import 'package:todo_getx_isar/app/viewmodel/services/auth/auth_service.dart';
+import 'package:todo_getx_isar/app/viewmodel/services/auth/auth_service_impl.dart';
 
 class AuthBinding implements Bindings {
   @override
@@ -13,20 +13,20 @@ class AuthBinding implements Bindings {
       FirebaseAuth.instance,
       permanent: true,
     );
-    Get.put<UserRepository>(
-        UserRepositoryImpl(
+    Get.put<AuthRepository>(
+        AuthRepositoryImpl(
           firebaseAuth: Get.find(),
         ),
         permanent: true);
-    Get.put<UserService>(
-        UserServiceImpl(
-          userRepository: Get.find(),
+    Get.put<AuthService>(
+        AuthServiceImpl(
+          authRepository: Get.find(),
         ),
         permanent: true);
     Get.put<AuthController>(
       AuthController(
         firebaseAuth: Get.find(),
-        userService: Get.find(),
+        authService: Get.find(),
       ),
       permanent: true,
     );

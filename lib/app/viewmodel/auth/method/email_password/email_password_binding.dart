@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:todo_getx_hive/app/controllers/auth/register/register_controller.dart';
+import 'package:todo_getx_isar/app/viewmodel/auth/method/email_password/email_password_controller.dart';
 
-class EmailPasswordBinding implements Bindings {
+class AuthEmailPasswordBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<EmailPasswordController>(
-        () => EmailPasswordController(userService: Get.find()));
+        () => EmailPasswordController(authService: Get.find()));
   }
 }
